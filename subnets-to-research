@@ -1,0 +1,499 @@
+# Subnet Research for Littlefoot Overlay
+
+## Target Subnets Analysis
+
+---
+
+## 1. Chutes (SN64) - Serverless AI Compute Platform
+
+**GitHub:** https://github.com/chutesai/chutes  
+**Subnet:** SN64
+
+### README Summary
+Chutes is a permissionless, serverless AI compute platform. Key concepts:
+- **Image**: Docker images with CUDA, Python 3.10+, OpenCL
+- **Chute**: FastAPI-like applications running on images
+- **Cord**: Individual functions within a chute (like API routes)
+- **GraVal**: Graphics validation library for GPU authenticity verification
+
+Miners provide GPU compute, validators verify hardware via GraVal, and users deploy containerized AI workloads. Billing is based on GPU hours and compute time.
+
+### Littlefoot Suitability Analysis
+
+**✅ PROS:**
+- **High energy usage** - GPU compute is power-intensive, carbon impact is significant
+- **Hardware verification** - GraVal already verifies GPU authenticity, could extend to location
+- **Miners already use Latitude.sh** - Paper mentions Chutes miners use Latitude.sh (documented in README)
+- **API-based** - Miners expose endpoints, validators query them (good for overlay)
+- **Established subnet** - 400,000+ users, 160 billion tokens daily
+
+**❌ CONS:**
+- **Latency-sensitive** - Serverless inference APIs need low latency (50-200ms added from clean grids could be deal-breaker)
+- **Already has verification** - GraVal focuses on GPU hardware, not location
+- **Complex infrastructure** - Kubernetes, Postgres, Ansible (harder to verify location)
+
+**Verdict:** ⚠️ **MODERATE** - Good fit technically (API-based, high energy), but latency concerns for inference workloads. May work better for batch/async workloads than real-time inference.
+
+---
+
+## 2. Lium (SN51) - GPU Rental Marketplace
+
+**GitHub:** https://github.com/Datura-ai/lium-io  
+**Subnet:** SN51
+
+### README Summary
+Lium is a decentralized, peer-to-peer GPU rental marketplace on Bittensor Subnet 51. Miners provide GPU resources, validators verify hardware specs and performance, and renters SSH into machines to run computational tasks. Web interface at lium.io.
+
+### Littlefoot Suitability Analysis
+
+**✅ PROS:**
+- **SSH-based access** - Latency-tolerant (users SSH in, not real-time API)
+- **High energy usage** - GPU rental is power-intensive
+- **Hardware verification** - Validators already verify GPU specs and performance
+- **Direct machine access** - Could verify location via provider APIs (Latitude.sh, AWS, etc.)
+- **Primary target** - Already identified in whitepaper as ideal
+
+**❌ CONS:**
+- **Interactive use** - Users SSH in, so latency still matters for user experience
+- **Less structured** - No standardized API like Chutes, harder to verify systematically
+
+**Verdict:** ✅ **EXCELLENT** - Best fit identified. SSH is latency-tolerant, high energy usage, direct machine access enables location verification. This is the primary target subnet.
+
+---
+
+## 3. Affine (SN120) - Incentivized RL Environment
+
+**GitHub:** https://github.com/AffineFoundation/affine-cortex  
+**Subnet:** SN120
+
+### README Summary
+Affine is an incentivized Reinforcement Learning environment that rewards miners for making incremental improvements on tasks (program abduction, coding). Miners submit models to Chutes (SN64) where they're inference load-balanced and publicly available. Validators evaluate models on RL environments, looking for models on the Pareto frontier.
+
+### Littlefoot Suitability Analysis
+
+**✅ PROS:**
+- **Uses Chutes** - Models deployed to Chutes (SN64), so inherits Chutes characteristics
+- **High compute** - RL training and inference is power-intensive
+- **Model-based** - Could verify location of model hosting infrastructure
+
+**❌ CONS:**
+- **Indirect** - Affine miners deploy to Chutes, so location verification happens at Chutes level
+- **Not primary compute** - Affine is about model improvement, not direct compute provision
+- **Complex dependency** - Requires Chutes developer account, adds complexity
+
+**Verdict:** ⚠️ **LOW** - Not a direct fit. Affine miners deploy to Chutes, so location verification would happen at Chutes level, not Affine level. Better to focus on Chutes directly.
+
+---
+
+## 4. Targon (SN4) - Confidential Decentralized AI Cloud
+
+**GitHub:** https://github.com/manifold-inc/targon  
+**Subnet:** SN4
+
+### README Summary
+Targon is a confidential decentralized AI cloud using Confidential Compute (CC) and Protected PCIe (PPCIE) technology. Provides hardware-enforced security, GPU TEE, remote attestation, and secure model inference. Uses NVIDIA CC or PPCIE for hardware-level security.
+
+### Littlefoot Suitability Analysis
+
+**✅ PROS:**
+- **High energy usage** - Secure AI inference is power-intensive
+- **Hardware attestation** - Already has hardware verification (CC/PPCIE), could extend to location
+- **Infrastructure-focused** - About secure compute infrastructure, aligns with carbon efficiency goals
+
+**❌ CONS:**
+- **Latency-sensitive** - Secure inference likely needs low latency
+- **Specialized hardware** - Requires specific hardware (NVIDIA CC/PPCIE), limits miner pool
+- **Security-focused** - Primary value is security, not carbon efficiency (though compatible)
+
+**Verdict:** ⚠️ **MODERATE** - Good fit for carbon efficiency (high energy), but specialized hardware and latency concerns. Could work if miners are willing to relocate secure infrastructure.
+
+---
+
+## 5. Vanta Network (Proprietary Trading Network)
+
+**GitHub:** https://github.com/taoshidev/vanta-network  
+**Subnet:** Unknown
+
+### README Summary
+Vanta Network (formerly Proprietary Trading Network) is a decentralized trading signal subnet. Miners run ML models to generate trade signals, validators receive signals, ensure validity, store data, and track portfolio returns. Uses Bittensor API to incentivize correctness and efficiency of ML models.
+
+### Littlefoot Suitability Analysis
+
+**✅ PROS:**
+- **ML compute** - Running ML models for trading signals is compute-intensive
+- **Signal-based** - Not real-time execution, signals can tolerate latency
+- **Data processing** - Could verify location of data processing infrastructure
+
+**❌ CONS:**
+- **Not primarily compute** - Focus is on signal quality, not compute provision
+- **Unknown subnet number** - Hard to assess current state/activity
+- **Trading-focused** - Primary value is trading signals, carbon efficiency is secondary
+
+**Verdict:** ⚠️ **LOW** - Not a good fit. Focus is on trading signals, not compute infrastructure. Carbon efficiency is not a primary concern for this subnet.
+
+---
+
+## 6. Ridges (SN62) - Autonomous Software Engineering Agents
+
+**GitHub:** https://github.com/ridgesai/ridges  
+**Subnet:** SN62
+
+### README Summary
+Ridges is a decentralized marketplace for autonomous software engineering (SWE) agents. Miners run agents to solve software tasks using LLMs, validators generate questions and evaluate agent performance. Mission is to incentivize agents solving real-world software problems toward AGI.
+
+### Littlefoot Suitability Analysis
+
+**✅ PROS:**
+- **LLM inference** - Running LLMs for code generation is compute-intensive
+- **Task-based** - Software tasks can tolerate some latency (not real-time user interaction)
+- **Agent-based** - Could verify location of agent execution infrastructure
+
+**❌ CONS:**
+- **Latency-sensitive** - Code generation agents need reasonable response times
+- **Not primarily compute** - Focus is on code quality, not compute provision
+- **Agent complexity** - Harder to verify location of agent execution vs. direct compute
+
+**Verdict:** ⚠️ **LOW-MODERATE** - Possible fit but not ideal. Code generation needs reasonable latency, and focus is on code quality not compute infrastructure. Could work if agents are batch-processed rather than real-time.
+
+---
+
+## 7. Templar - Incentivized Internet-Wide AI Training
+
+**GitHub:** https://github.com/one-covenant/templar  
+**Subnet:** Unknown (www.tplr.ai)  
+**Website:** https://www.tplr.ai/
+
+### README Summary
+Templar (τemplar) is a decentralized training framework that enables large-scale model training across heterogeneous compute resources. Miners train models on assigned data subsets, compute gradients, compress them (DCT + top-k), and share with peers. Validators evaluate miner contributions by measuring loss improvement before/after applying gradients. Uses synchronized windows for coordinated training, with moving average scoring based on actual model performance improvements.
+
+Key features:
+- **Decentralized Training**: Collaborative model training across internet
+- **Gradient Compression**: DCT transform + top-k compression for efficiency
+- **Loss-Based Scoring**: Validators measure $s_i = L_{before} - L_{after}$ (loss improvement)
+- **Moving Average Weights**: $w_i = \bar{s}_i$ (smoothed improvement scores)
+- **Heterogeneous Compute**: Supports diverse hardware configurations
+
+### Littlefoot Suitability Analysis
+
+**✅ PROS:**
+- **EXTREMELY HIGH energy usage** - Model training is the most power-intensive AI workload (training > inference by 10-100×)
+- **Latency-tolerant** - Training is batch process, not real-time. Gradient sharing can tolerate network delays
+- **Distributed compute** - Miners run training on their infrastructure, location is verifiable
+- **Long-running tasks** - Training windows are synchronized but not latency-critical
+- **High value target** - Training is where most AI carbon footprint comes from
+- **Infrastructure-based** - Miners provide compute infrastructure, aligns with location verification
+
+**❌ CONS:**
+- **Gradient coordination** - Miners share gradients with peers, but this is async/batch, not real-time
+- **Unknown subnet number** - Hard to assess current state/activity
+- **Complex coordination** - Synchronized windows might need some network reliability, but not low latency
+- **Model synchronization** - Miners sync models from validators, but this is one-time per window
+
+**Verdict:** ✅ **EXCELLENT** - Training is the highest-value target for carbon efficiency (most energy-intensive), and it's latency-tolerant. This could be a **primary target** alongside Lium.
+
+**Key Insight:** Model training uses 10-100× more energy than inference. If Littlefoot can incentivize clean-grid training infrastructure, the carbon impact would be massive.
+
+---
+
+## 8. IOTA (Incentivized Orchestrated Training Architecture)
+
+**GitHub:** https://github.com/macrocosm-os/iota  
+**Subnet:** Unknown  
+**Website:** Dashboard available (link in README)
+
+### README Summary
+IOTA is a framework for pretraining large language models across a network of heterogeneous, unreliable, permissionless, token-incentivized machines. Uses data- and pipeline-parallel architecture to accelerate training and reduce hardware requirements.
+
+Key architecture:
+- **Orchestrator** distributes model layers across heterogeneous miners
+- **Pipeline parallelism** - model broken into layers (head, body, tail)
+- **Activation streaming** - activations streamed between miners via orchestrator
+- **S3 bucket** - shared storage for activations and layer weights
+- **Miners** compete to process as many activations as possible
+- **Validators** spot-check miners to ensure work was performed
+- **Butterfly All-Reduce** - variant used for merging activations
+
+Current run: 1.5B parameter Llama-inspired model, 3 layers (1 head, 1 tail, 1 body). Future: scaling to 15B, 50B, 100B models.
+
+Requirements: CUDA GPU with >= 16GB VRAM (RTX 4090 example), Ubuntu 22.04.
+
+### Littlefoot Suitability Analysis
+
+**✅ PROS:**
+- **EXTREMELY HIGH energy usage** - LLM pretraining is one of the most power-intensive AI workloads
+- **Latency-tolerant** - Pipeline-parallel training is batch process, activations can tolerate network delays
+- **Distributed compute** - Miners provide training infrastructure, location is verifiable
+- **Infrastructure-based** - Miners run GPU infrastructure for training, aligns with location verification
+- **High value target** - Pretraining is where massive carbon footprint comes from
+- **Heterogeneous miners** - Supports diverse hardware, good for overlay mechanism
+- **Orchestrator pattern** - Central coordination means location verification can be integrated
+
+**❌ CONS:**
+- **Orchestrator dependency** - Central orchestrator coordinates training, but this is fine for overlay
+- **S3 bucket dependency** - Uses shared S3 for activations/weights, but location verification is separate
+- **Pipeline coordination** - Layers need to coordinate, but this is async/batch, not real-time
+- **Unknown subnet number** - Hard to assess current state/activity
+- **Early stage** - Currently 1.5B model, scaling planned (may be smaller subnet)
+
+**Verdict:** ✅ **EXCELLENT** - Another training subnet, similar to Templar. Pipeline-parallel training is latency-tolerant, and pretraining is extremely energy-intensive. This could be a **primary target** alongside Templar and Lium.
+
+**Key Insight:** IOTA uses **pipeline parallelism** (layers distributed) while Templar uses **gradient sharing**. Both are training-focused and excellent targets. IOTA's orchestrator pattern might actually make location verification easier to integrate.
+
+---
+
+## 9. Score Vision (SN44) - Decentralized Computer Vision Framework
+
+**GitHub:** https://github.com/score-technologies/score-vision  
+**Subnet:** SN44  
+**Website:** hello@wearescore.com, Discord available
+
+### README Summary
+Score Vision is a decentralized computer vision framework on Bittensor that reduces cost and time for complex video analysis. Initial focus: Game State Recognition (GSR) in football - targeting $600B football industry ($50B betting, $30B data services).
+
+Architecture:
+- **Miners**: Receive video streams, process frames for object detection and tracking, generate standardized outputs in real-time
+- **Validators**: Verify miner outputs through filtered frame selection and hybrid scoring (keypoint validation + semantic BBox assessment)
+- **Lightweight Validation**: Two-step process - frame filtering/keypoint validation, then CLIP-based object checks
+- **Performance Metric**: GS-HOTA (Game State Higher Order Tracking Accuracy) = √(Detection × Association)
+
+Technical features:
+- Real-time processing of multiple HD video streams
+- Distributed computation across miners
+- Optimized frame sampling for efficiency
+- Dynamic environments (varying camera angles, weather conditions)
+- 10× reduction in validation costs vs traditional methods
+
+Current phase: Mainnet deployed on SN44 (week commencing 13 January 2025). Roadmap includes action spotting, match event captioning, advanced player tracking, and expansion to other sports.
+
+### Littlefoot Suitability Analysis
+
+**✅ PROS:**
+- **High energy usage** - Video processing (especially real-time HD streams) is compute-intensive
+- **Infrastructure-based** - Miners run video processing infrastructure, location is verifiable
+- **Distributed compute** - Multiple miners process different video streams, location verification possible
+- **Large market** - $600B industry means significant scale if successful
+- **Frame-based processing** - Frame sampling might allow some latency tolerance
+
+**❌ CONS:**
+- **Real-time processing** - README emphasizes "real-time analysis" and "minimal latency" - this suggests latency sensitivity
+- **Live match analysis** - For betting operators, real-time data is critical (latency matters)
+- **Video streaming** - Processing video streams in real-time likely needs low latency
+- **Early stage** - Just deployed to mainnet (January 2025), may be small subnet initially
+- **Specialized use case** - Football/sports focus, though framework is extensible
+
+**Verdict:** ⚠️ **MODERATE-LOW** - High energy usage (video processing is compute-intensive), but real-time requirements suggest latency sensitivity. May work for batch/offline video analysis, but live match analysis likely needs low latency. Could be good fit if they support both real-time and batch modes.
+
+**Key Question:** Does Score Vision support offline/batch video analysis, or is it purely real-time? If batch mode exists, that would be latency-tolerant and a good fit.
+
+---
+
+## 10. G.O.D (Gradients on Demand) - Distributed LLM/Diffusion Training
+
+**GitHub:** https://github.com/gradients-ai/G.O.D  
+**Subnet:** Unknown  
+**Website:** github.com/gradients-opensource (winners repository)
+
+### README Summary
+G.O.D (Gradients on Demand) is a subnet for distributed intelligence for LLM and diffusion model training. Uses a tournament-based system where validators execute miners' open-source training scripts on dedicated infrastructure.
+
+Key features:
+- **Tournaments**: Competitive events lasting 4-7 days per tournament
+- **Frequency**: New tournaments start 72 hours after previous one ends
+- **Rewards**: Exponentially higher weight potential for top performers
+- **Open Source**: Winning AutoML scripts are released when tournaments complete
+- **Winners Repository**: First place scripts uploaded to github.com/gradients-opensource
+- **Training Focus**: LLM and diffusion model training
+- **GRPO**: Uses GRPO (Group Relative Policy Optimization) reward functions
+
+Architecture:
+- Validators execute miners' training scripts on dedicated infrastructure
+- Miners submit open-source AutoML training scripts
+- Scripts are evaluated on dedicated validator infrastructure
+- Winners determined by training performance
+
+### Littlefoot Suitability Analysis
+
+**✅ PROS:**
+- **EXTREMELY HIGH energy usage** - LLM and diffusion model training is one of the most power-intensive AI workloads
+- **Latency-tolerant** - Tournaments last 4-7 days, training is batch process, not real-time
+- **Infrastructure-based** - Validators execute scripts on dedicated infrastructure, location is verifiable
+- **Tournament-based** - Discrete events (4-7 days) means location verification can happen per tournament
+- **Open source scripts** - Transparency in training methods, easier to verify work
+- **Dedicated infrastructure** - Validators run training on their infrastructure, location verification possible
+
+**❌ CONS:**
+- **Validator-executed** - Validators execute scripts on their infrastructure, not miners' infrastructure
+- **Unknown subnet number** - Hard to assess current state/activity
+- **Tournament model** - Discrete events might make continuous location verification more complex
+- **Dedicated infrastructure** - If validators control infrastructure, miners don't control location (different from other training subnets)
+
+**Verdict:** ⚠️ **MODERATE** - Training is extremely energy-intensive and latency-tolerant, BUT the architecture is different: validators execute scripts on their infrastructure, not miners'. This means location verification would need to verify validator infrastructure location, not miner infrastructure. This is a different model than Templar/IOTA where miners run training.
+
+**Key Difference:** 
+- **Templar/IOTA**: Miners run training on their infrastructure → verify miner location
+- **G.O.D**: Validators run training on their infrastructure → verify validator location (different overlay target)
+
+**Recommendation:** G.O.D might be better suited for a different overlay mechanism that targets validator infrastructure rather than miner infrastructure. Or, if miners provide the training scripts and validators execute them, there might be a way to verify where the training actually happens.
+
+---
+
+## 11. Hippius (TheBrain) - Decentralized Infrastructure Subnet
+
+**GitHub:** https://github.com/thenervelab/thebrain  
+**Subnet:** SN13 (Hippius)  
+**Website:** Part of Bittensor ecosystem
+
+### README Summary
+Hippius is a Bittensor subnet providing decentralized file storage, compute, and blockchain management capabilities. It's a comprehensive infrastructure subnet with multiple node types.
+
+Architecture:
+- **Storage Miners**: Run IPFS nodes for distributed file storage, manage dedicated storage nodes and disk infrastructure
+- **Compute Miners**: Operate as hypervisors for virtualized compute resources, manage task execution and resource allocation
+- **GPU Miners**: Provide GPU compute resources (mentioned in RPC API)
+- **StorageS3**: S3-compatible storage nodes
+- **Validators**: Verify network operations, ensure security, manage replication and task assignment
+
+Key features:
+- Decentralized file storage with IPFS integration
+- Reputation-based worker node management
+- Marketplace for storage and compute resources
+- Virtual machine (VM) deployment and management
+- Advanced authorization system
+- Distributed offchain workers for real-time system metrics
+- Comprehensive RPC API for node metrics, rewards, file management
+
+The subnet provides infrastructure services (storage, compute, GPU) rather than AI-specific workloads.
+
+### Littlefoot Suitability Analysis
+
+**✅ PROS:**
+- **High energy usage** - Storage and compute infrastructure is power-intensive, especially GPU miners
+- **Infrastructure-based** - Miners provide physical infrastructure (storage, compute, GPU), location is verifiable
+- **Multiple node types** - Storage, Compute, GPU miners all have physical infrastructure
+- **Latency-tolerant** - Storage and VM compute are generally latency-tolerant (not real-time inference)
+- **Established subnet** - SN13, part of core Bittensor infrastructure
+- **Direct infrastructure** - Miners run physical infrastructure, aligns with location verification
+
+**❌ CONS:**
+- **Mixed workloads** - Storage is low-energy, compute/GPU is high-energy (need to target specific node types)
+- **Infrastructure focus** - Not AI training/inference specific, broader infrastructure subnet
+- **VM deployment** - VMs might need low latency depending on use case, but generally tolerant
+- **Storage focus** - Storage miners have lower energy usage than compute/GPU miners
+
+**Verdict:** ✅ **CONFIDENT** - **We can rank Hippius miners using independent verification methods**
+
+**Investigation Results:**
+- ✅ **Node types are queryable** - Hippius has RPC method `get_active_nodes_metrics_by_type(node_type: NodeType)`
+- ✅ **Node types available**: Validator, StorageMiner, StorageS3, ComputeMiner, GpuMiner
+- ✅ **Geolocation included** - `NodeMetricsData` includes `geolocation: Vec<u8>` field (but self-reported, untrustworthy)
+- ✅ **Per-account node type** - `get_miner_info(account_id)` returns `(NodeType, Status)` for any account
+- ✅ **Can filter by type** - Littlefoot can query only ComputeMiner and GpuMiner nodes
+- ❌ **Hippius geolocation is self-reported** - Miners' offchain workers call `https://ip-api.hippius.network/?format=json` and submit the result. No validator verification.
+
+**How Hippius Compute Miners Actually Work:**
+- Compute miners run **local hypervisors** (call `http://localhost:3030/start-vm`)
+- They operate as hypervisors for virtualized compute resources
+- `hypervisor_ip` is the miner's own server IP address
+- Infrastructure varies: AWS/GCP/Azure, VPS providers (Hetzner, OVH), bare metal providers (Latitude.sh), or own hardware
+
+**Why We Can Rank Hippius Miners (Independent Verification):**
+
+Littlefoot doesn't rely on Hippius's self-reported geolocation. Instead, we use **independent verification methods** that work regardless of Hippius's internal system:
+
+1. **Network Latency/RTT Triangulation** (Tier 2/3) - **WORKS FOR ALL MINERS** ✅
+   - Validators measure round-trip time from multiple geographic locations
+   - Convert RTT to distance estimates (speed-of-light constraints)
+   - Triangulate location independently (no miner cooperation needed)
+   - **Spoofing-resistant** - Can't fake lower latency
+   - **Accuracy**: ~100km radius (city-level precision)
+   - Works for any infrastructure (cloud, VPS, bare metal, own hardware)
+
+2. **Provider API Verification** (Tier 1) - **WORKS FOR CLOUD/BARE METAL PROVIDERS** ✅
+   - Miners provide service account credentials (AWS, GCP, Latitude.sh, etc.)
+   - Validators query provider APIs directly
+   - **If miner uses AWS/GCP/Azure**: Fully verifiable ✅
+   - **If miner uses bare metal provider (Latitude.sh, etc.)**: Fully verifiable ✅
+   - **If miner uses VPS provider**: Depends on provider API access ⚠️
+
+3. **Witness Chain PoL** (Tier 2) - **PRODUCTION-READY API** ✅
+   - Query Witness Chain API for verified location
+   - Decentralized proof-of-location protocol (mainnet live)
+   - Designed for DePIN compute networks
+   - Can integrate directly
+
+4. **Multi-Signal Verification** (Tier 3) - **FALLBACK FOR ALL MINERS** ✅
+   - Combine network latency, IP geolocation, provider hints
+   - Cross-verify with Hippius's self-reported data (as hint only)
+   - Require signal agreement
+   - Works even when individual signals are weak
+
+**Key Insight:** We have **multiple independent verification methods** that don't depend on Hippius's self-reported geolocation. Network latency/RTT triangulation works for **all miners** regardless of infrastructure. Provider APIs work for cloud/bare metal providers. Witness Chain provides production-ready API. Multi-signal provides fallback. **We can rank Hippius miners.**
+
+**Confidence Assessment:**
+- **High confidence** for miners using cloud/bare metal providers (Tier 1: Provider APIs)
+- **Medium confidence** for all miners (Tier 2: Network latency, Witness Chain)
+- **Lower confidence but still rankable** for miners with own hardware (Tier 3: Multi-signal)
+
+**Recommendation:** ✅ **CONFIDENT** - We can rank Hippius miners using independent verification. Network latency/RTT triangulation provides baseline verification for all miners. Provider APIs provide high-confidence verification for cloud/bare metal providers. Node type filtering (ComputeMiner/GpuMiner) is a bonus. This is a viable target subnet.
+
+---
+
+## Summary Rankings
+
+| Subnet | Suitability | Energy Usage | Latency Tolerance | Verification Ease | Notes |
+|--------|-------------|--------------|-------------------|-------------------|-------|
+| **Templar** | ✅ **EXCELLENT** | **EXTREMELY HIGH** | **Very High** (training) | Medium | Training is most energy-intensive, batch process |
+| **IOTA** | ✅ **EXCELLENT** | **EXTREMELY HIGH** | **Very High** (training) | Medium | Pipeline-parallel pretraining, orchestrator pattern |
+| **Lium (SN51)** | ✅ **EXCELLENT** | High | High (SSH) | Medium | Primary target, SSH is latency-tolerant |
+| **Chutes (SN64)** | ⚠️ **MODERATE** | High | Low (inference) | Medium | Good technically, but latency concerns |
+| **Targon (SN4)** | ⚠️ **MODERATE** | High | Low (inference) | Medium | Specialized hardware, security-focused |
+| **Score Vision (SN44)** | ⚠️ **MODERATE-LOW** | High | Low (real-time video) | Medium | Real-time video processing, latency-sensitive |
+| **G.O.D** | ⚠️ **MODERATE** | **EXTREMELY HIGH** | **Very High** (training) | Low | Validator-executed, different architecture |
+| **Hippius (SN13)** | ✅ **CONFIDENT** | High (compute/GPU) | High (VM/compute) | Medium | ✅ Node type filtering works, independent verification via network latency/provider APIs/Witness Chain (can rank reliably) |
+| **Ridges (SN62)** | ⚠️ **LOW-MODERATE** | Medium | Medium | Low | Code generation, not primarily compute |
+| **Vanta Network** | ❌ **LOW** | Low | High | Low | Trading signals, not compute-focused |
+| **Affine (SN120)** | ❌ **LOW** | Medium | N/A | Low | Deploys to Chutes, indirect |
+
+## Recommendations
+
+1. **Primary Target: Templar** - **HIGHEST VALUE** - Model training is the most energy-intensive AI workload (10-100× more than inference). Training is batch/latency-tolerant. This could have the biggest carbon impact.
+
+2. **Primary Target: IOTA** - **HIGHEST VALUE** - Another training subnet using pipeline parallelism. LLM pretraining is extremely energy-intensive. Orchestrator pattern might make location verification easier to integrate.
+
+3. **Secondary Target: Hippius (SN13)** - ✅ **CONFIDENT** - Node type filtering works (can target ComputeMiner/GpuMiner). Geolocation is self-reported in Hippius, but Littlefoot uses independent verification: network latency/RTT triangulation (works for all miners), provider APIs (cloud/bare metal), Witness Chain PoL (production API). Can rank miners reliably.
+
+4. **Primary Target: Lium (SN51)** - Best fit for inference/compute. SSH-based, latency-tolerant, high energy usage, direct machine access.
+
+5. **Secondary Target: Chutes (SN64)** - Good fit technically, but test latency impact. May work better for batch/async workloads.
+
+4. **Future Consideration: G.O.D** - Extremely high energy usage (training), but architecture is different (validators execute on their infrastructure, not miners'). Might need different overlay mechanism targeting validator infrastructure.
+
+
+6. **Future Consideration: Score Vision (SN44)** - High energy usage (video processing), but real-time requirements suggest latency sensitivity. Investigate if batch/offline modes exist.
+
+7. **Future Consideration: Targon (SN4)** - If secure compute miners are willing to relocate, could be valuable.
+
+5. **Skip: Affine, Vanta, Ridges** - Not primarily compute-focused, or indirect dependencies.
+
+**Strategic Insight:** If Littlefoot can target **Templar + IOTA (training)** and **Lium (inference/compute)**, it would cover the main AI compute workloads:
+- **Training subnets (Templar, IOTA)**: Highest per-task energy usage (10-100× inference), latency-tolerant
+- **Inference/compute subnets (Lium)**: High volume, latency-tolerant (SSH)
+- **Infrastructure subnets (Hippius)**: Compute/GPU infrastructure, latency-tolerant (VM-based), node type filtering works, independent verification via network latency/provider APIs/Witness Chain (can rank reliably)
+
+Training has higher energy usage per task, but inference has more volume. Both are valuable targets. Having two training subnets (Templar gradient-sharing, IOTA pipeline-parallel) provides redundancy and different architectural patterns to test overlay mechanisms.
+
+---
+
+## Next Steps
+
+1. Get more GitHub addresses for additional subnets to research
+2. **Deep dive into Templar** - Understand training window coordination, gradient sharing mechanisms, verify latency tolerance
+3. **Deep dive into IOTA** - Understand orchestrator pattern, pipeline parallelism, activation streaming, verify latency tolerance
+4. **Compare Templar vs IOTA** - Both are training subnets but different architectures (gradient-sharing vs pipeline-parallel). Which is better fit?
+5. Deep dive into Lium validator code to understand verification mechanisms
+6. Analyze Chutes latency requirements for different workload types
+7. **Investigate G.O.D architecture** - Understand if miners provide infrastructure or if validators execute on their own infrastructure. If validators execute, might need different overlay mechanism.
+8. **Investigate Hippius node types** - ✅ **COMPLETED** - Confirmed: RPC method `get_active_nodes_metrics_by_type(NodeType)` allows filtering. ✅ **CONFIDENCE**: Can rank Hippius miners using independent verification (network latency/RTT triangulation works for all miners, provider APIs for cloud/bare metal, Witness Chain PoL API). Hippius's self-reported geolocation is untrustworthy, but we don't need it.
+9. **Investigate Score Vision** - Determine if batch/offline video analysis modes exist, or if purely real-time. If batch mode exists, could be good fit.
+10. Research Targon hardware requirements and miner locations
+10. **Compare training vs inference energy usage** - Quantify the carbon impact difference to prioritize training subnets vs Lium

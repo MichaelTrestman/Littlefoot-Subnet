@@ -1,0 +1,596 @@
+yeah, I've been batting this, yeah. So it's like, real quick. The idea is, basically, it's so the core idea is, like, how can we reduce the carbon footprint of bit tensor? And I started thinking about this stuff when we were doing that, like white or the not white paper, like audit white paper a while ago. And everyone's just like, Oh, yeah. Nobody has any idea what kind of energy production, any energy use, goes into bit tensor, and there's no even way to get any of that information. And so I was like, Oh, you could do a subnet that basically incentivizes miners on other subnets to provide to to do their compute in a way where they can provide attestations about how much carbon they're using, and then to incentivize them to use less carbon. So basically, just like the idea is you have a mechanism for each subnet for some some subset of, like, existing subnets that works for it. So like, Liam works for it, and there's a few other specific subnets that are good candidates. So like, start with candidates. So like, start with three or four subnets, and so you make some mechanisms on the new subnet, and what they do is, like, they take the miners from those other subnets and they map them to a combination of their score on the subnet and, like, their carbon use. So you basically, like, reward them for doing well, while also using less carbon than their competition. And so the idea is that then you could just basically, like, nudge existing miners to be a little bit more efficient when it's a tie breaker on their decisions and stuff like that.
+
+Speaker 3  42:24  
+And so just like, get the whole population of miners to make better decisions that way. And yeah, so that's, that's basically the idea. And yes, yeah, go ahead. I was just curious. Like, I don't know if you covered that. Maybe I missed it for like, would there be a way to kind of, like, because, say, for example, I'm guessing it's probably going to be open to all miners. And I'm sure miners on, I think gift sensor probably don't use it, or don't have as much of a footprint as maybe miners on, I'm guessing, you know, shoots or or ridges, like,
+
+Speaker 2  43:03  
+would there be a way to kind of, like, compare, or kind of like, rationalize the results of each minus footprint so it's kind of like on a level playing field between subnets, between subnets, like, because some subnets burn a lot more, yeah, I'm not exactly sure how to figure that out, because, yeah, you do want to balance it based somehow on, like, the emissions in the tensor sense, and some someone on the emissions in the carbon sense. And I'm not really sure how to balance between the subnets. And that's that is a little bit tricky, because there's going to be this function that does the rebalancing over the mechanisms, and that's how you achieve the balancing over the subnets. So that's probably actually the trickiest part of the subnet design, and the part that I'm least sure about. But yeah, there's some some, I mean, maybe you could just weight it, by the weight of the subnet versus how much it's producing in terms of carbon, because the idea is to influence bit tensor. But I could also see an argument
+
+Speaker 1  44:07  
+for balancing it in terms of carbon, because that's like the impact. But I guess, yeah, so I don't know, it is a really good question for the design and that I'm not sure about,
+
+Unknown Speaker  44:18  
+yeah, for all
+
+Speaker 2  44:21  
+the for the like topic, or like the question about the subnet being overlay subnet, it would not be the first, technically. So Dara, just to, just to, just to be clear about that, so there's this point. So, like, I wasn't sure if maybe subnet owners would just all freak out and hate the design, because it's what I call an overlay.
+
+Speaker 1  44:40  
+So it takes, like, the emissions from one subnet and then does some transformation function on them to come up with the emissions for the subnet, right? Yeah. So go ahead. Can. Giving emissions for doing
+
+Speaker 2  44:54  
+work already on a different Summit. So it's like additional incentives on top of the incentives, just that you incentivize those this work on the different summers to be clean, right? So I see it as, like a
+
+Speaker 1  45:07  
+similar to a carbon subsidy, where you're like, you want to cover the cost of the decisions that will lower the carbon and just like, get people to do the things that are smart, yeah, make it easy. What makes this decision, what you would need to have is just some kind of burning, probably, like, I'm not burning, but you can actually, actually Good point. Good that I'm mentioning that because what we need to also document in that conversation is that the burn
+
+Speaker 2  45:35  
+UID can also recycle now. Oh, it has a choice.
+
+Speaker 1  45:40  
+Yeah, you can decide if the owner UID should burn or recycle Alpha. That's brilliant. I like that. But okay, cool, yeah. And so with that in mind you, what you would probably want to have is also some like recycle or burning function. What you would rather want where, if, because, if everybody that is registered is not efficient or like not has a heavy footprint, you would not want to give them all the 100% of the Alpha. You would probably want to reduce it. To reduce it. And then as bad as the as the footprint gets slower, then you release more alpha to those participating, you know, yeah, yeah, yeah. So they're
+
+Speaker 2  46:25  
+like, that's probably also a part of that, because you don't want to give them 100% of all this, of the some of the emissions, if everybody is just bad, right? Yeah, that's true. Yeah. I mean, you don't want to, like, waste, yeah, you want to make sure that you're making a difference. And not, yeah, flushing the money down the toilet and differences, does that make a difference? And yeah, that's the thing, I guess, like, it is tricky to come up with, exactly, with, like, the validator code, basically for each different mechanism ie each different, like, primary target subnet, because it depends on the kind of data that they're pulling. But I think there are some low hanging fruit, because so I guess there aren't that many people who actually just run on AWS or GCP in subnets that I was looking at, which is good, because that would be very wasteful, but it would make it easy. But some people are using bare metal services, and they do have, like, they you can just read where they're operating from, and location is most of it. And, yeah, I mean, like, there's a lot of tricky
+
+Speaker 1  47:26  
+questions about how to actually get the data and how to come up with the functions. But just the the basic idea, I wasn't sure. I just was thinking through whether it might have legs or not, but, yeah, but like, community wise, like the viewpoint of this, there's a subnet which I could maybe send you a white paper, if you want from them, if you want to read about it. But there's the subnet, which is standard 118 which essentially is also an overlay subnet. But instead of incentivizing miners to do, to be pretty, to like, do the work in a clean way, it incentivizes
+
+Unknown Speaker  48:05  
+investors to hold long term.
+
+Speaker 2  48:08  
+So what it does is that you they have, they have, like, a website where you have different
+
+Speaker 2  48:19  
+owner. The thing that I would really dislike about this design is whether it could interfere with my ability to incentivize the subnets that I don't want. So if, I mean So, if the subnet was bigger than the primary subnet, that would be a lot more of a problem. If it's like, small, then it's less of a problem. But if it's actually big relative to the to the subnet, then you could write like, obviously,
+
+Speaker 1  48:47  
+you could just like, change the rankings of incentive total to the miners and like, you could, like, basically fuck with the incentive mechanism. So I guess
+
+Unknown Speaker  48:59  
+if, for example, imagine your clean
+
+Speaker 2  49:03  
+carbon footprint subnet is very large. Yeah, that showcases to the subnet owner that people care about that try to adjust to them. Yeah, and actually, you know what? It's not even true. So it shouldn't change the rankings, because the function is multiplying by the original weighting function. So it shouldn't change it much, except in really extreme circumstances.
+
+Speaker 1  49:26  
+And actually, if you're a small subnet, and you can get on there, it's a way of boosting emissions to your miners. So it's a way of bootstrapping your subnet. So that's actually incredible for small subnets, potentially the only problem, the only problem you have, or, like, no problem. But it's like, I'm thinking of it this way, where, and that's also one of the design issues I have seen with the other open. Subnet was under 18 that I mentioned. It's like, because you are, you are the overly subnet. You are not the subnet that miners care about. So they will just unstake everything that they get from you. And for example, if I'm if I'm a miner on Templar, then and you give me incentives for just doing clean work, and maybe I already did clean work, then I don't have to change anything. I'm getting money from you. I can remove that money from there without hurting my main subnet. And you the token from
+
+Unknown Speaker  50:26  
+and also the net internet outflows would be
+
+Speaker 1  50:30  
+huge, which would mean, technically, no emissions for that subnet, and they would just death spiral this overlay subnet Wait,
+
+Unknown Speaker  50:37  
+because there would be all of the mining emissions would
+
+Speaker 2  50:39  
+be exited. Yeah, like everybody would like they, they don't have that much incentive to hold it
+
+Speaker 1  50:45  
+this subnet, compared to data main subnets, which mining emissions were, like, excluded from outflow in some way. Is that not? No, no, no. What is excluded from emissions? Or like, inflow, outflow is root proportion, I think, yeah, so, like the dividend side of things, because, like, when you think, when you think about, what was my model, mental model on that, what was I thinking? Because the subnet is incentivizing people to buy, yeah, all right, exactly, because the something 118 is incentivizing you to buy the baskets and to hold. So what you can do is you buy the biscuit you hold, you get emissions from 718 because you hold, you sell those emissions and put them more into biscuits, which gives you more emissions. So you sell them and you just, essentially, you drive the price down on 118 but you increase your emissions and you stake into other summits, which doesn't hurt them, because nobody has the incentive to sell them. They have the incentive to continue holding and they made a design choice, or something like that, where
+
+Speaker 2  52:06  
+the emissions you get are not giving out immediately or something, or you are disincentivized if you sell your emissions, something like that, to prevent that
+
+Speaker 1  52:16  
+kind of happening. Yeah. I mean, so this is a problem for all subnets, right? It's like, how do you get the subnet? How do you get miners to not exit their liquidity immediately? Oh, yeah. But the difference that I was thinking is essentially you have the subnet which you care about, this main commodity subnet, and you have this overlay subnet which technically only like it itself, doesn't has immediate value. It incentivizes and and pushes people in one direction, like, for example, long investing, or maybe clean energy. But those commodities subnets would still survive, even though, if the
+
+Speaker 2  53:01  
+overlays subnet dies. So you, as you might not care less about them than about those
+
+Unknown Speaker  53:09  
+different subnets, primary Yeah.
+
+Speaker 2  53:12  
+I mean, assuming that you're primarily motivated by participation in the first one, like, yeah, if it gets big, and there are people who, yeah, so, like, so, if you're so, I mean, if it got big, then maybe there are people who would be like, Okay, I'm gonna do what you might just suggested the other day, which is start a solar compute farm, specialize in this, and then I'm gonna go in there and, like, hit all the biggest subnets on the carbon,
+
+Speaker 1  53:40  
+you know, on the carbon thing, and just like, dominate that and get emissions from all the mechanisms on there with my solar powered compute farm or something. I guess I would worry that you would have be able to but because you have this, because they have this weight from how much emissions the person gets on the debt, on the primary subnets, maybe it would not be that much of a problem. But something I could see is the good tensor problem, where you incentivize people to do X, and that x and that x being clean energy on those primary subnets. So you could have Scenario A being existing minus go to your subnet and change up to be more clean, while they still pursue being good in output. And you have those miners who send a robe come into your subnet first see they need to do some work on Templar and try to do something on Templar, but
+
+Speaker 2  54:41  
+actually they just bloat the subnet with low quality output because they want to participate in your subnet. Which incentivizes to participate in Templars. Yeah. I mean, the design
+
+Speaker 1  54:53  
+of it is, like, to attract the minor people who are already the competitive miners. Because, like, yeah, it's, it's like, hard, yeah, it'd be hard to come in that way and maintain your emissions on the primary side. Because you, you, we all heard about the Git and miners, where they just spam every repo that is just that has some weights so that they can get some kind of emissions. So, yeah, that will be like one scenario that could potentially happen,
+
+Speaker 2  55:24  
+but because of the weight you have, maybe not, maybe not so much, because they wouldn't be that much incentivized, yeah, maybe they would try. Maybe they would join and load, but they would fail. The problem would be, if only the shitty miners from each primary subnet joined
+
+Unknown Speaker  55:43  
+this subnet, then you'd be wasting
+
+Speaker 1  55:46  
+your emissions on the miners that weren't doing most of the work on the good subnet, on the on the primary subnets anyway, without really influencing the way the work was happening, right? Yeah. So that's why, that's why you you need to with this idea. You need to, in some degree, at some point, with some kind of like, formula, burn or recycle because, yeah, let's say all your
+
+Speaker 2  56:14  
+miners are shitty miners on Templar, yeah, but because
+
+Speaker 1  56:18  
+in their own subnet, they everybody is shitty. They would be good in their subnet for doing that. You mean, shitty at carbon usage? No, they would be shitty. All of them
+
+Speaker 2  56:31  
+would be shitty. And at, for example, at the primary subnets, yeah. But because everybody is shitty, when you then compare them in this group, then some of them are really, really good, right? They're the best ones, right? But, but like, if that's the situation, then all the decent miners on them, you know, any decent miner in Templar should, you know, it just incentivizes them to register, because then they'll take all of the emissions.
+
+Speaker 1  56:54  
+So, like, that's how the tents are supposed to work. So that should be, okay, that's true.
+
+Unknown Speaker  56:59  
+That's true. Yeah, it's like, to some extent,
+
+Speaker 2  57:01  
+you got to just trust the design, the subnet design and human consensus to like. But I don't remember the formula, but what is, how is the weight like, for example, let's say you are. It's the weight on the primary subnet. It's the weight on the primary subnet times the signal strength, which means you're, you've, like, done all the data reporting required and stuff, and given whatever access, like, fully because there might be cases where you you can do some graded reporting, and that's the best we can do for
+
+Speaker 1  57:29  
+partial credit, but so it's, yeah, so the signal strength just divided by some rating of your carbon usage. So it's, it's, it's pretty simple, except those terms are complicated because we have so let's say, let's say my carbon footprint is extremely low. It's like Iceland. I'm very good, yeah, and but my emissions are low on the primary subnet,
+
+Speaker 2  57:51  
+and then somebody different that is like the top minor on the primary subnet, but his carbon footprint is very heavy. It's like
+
+Unknown Speaker  57:57  
+Germany or Poland, who is the better miner?
+
+Speaker 1  58:04  
+So their performance, their performance is low on the primary subnet?
+
+Speaker 2  58:08  
+Yeah, you have one who has a very low performance on the primary subnet, but his carbon footprint is very good, I guess, person who is the opposite. So my hunch, so my my design intuition here, is that as long as they're good enough to keep their spot, then by design, I want them to be getting that. I want that to be good enough. If it's a miner that's like, dying on the primary subnet, if their performance is so bad that they're, like, not maintaining it stably, then I want to stop incentivizing them. So basically, that's how we want to tune it. And it's like, you have to kind of tune it that way. But yeah, it's so it's a little bit fuzzy, and it's going to require constant fine tuning for all of these things, really. But yeah, it's like, that. That's the design hunch. It's like, basically, I want to, I want to take the miners that are good enough to stay on the
+
+Speaker 1  58:56  
+primary subnet and incentivize the ones that are best at carbon usage. I don't, yeah, it's like, I don't necessarily so. So I'm not sure if the function is even necessarily exactly correct. Um, because that's what I was thinking. Like, if you, if you have a person who, for example, I don't know, registers the VPs in Iceland, yeah, and but creates low output, which gets some form of emissions, but it's just, I don't know, the lower percentile, and you have somebody else who is, like a very good miner, and he came to you because he is a good man on Templar and but his footprint is not as good, then you ideally still would want to probably incentivize the person who is good on Templar more, because he actually creates good outputs. And then you want to you. You want to also incentivize them to potentially get cleaner,
+
+Speaker 2  59:55  
+yeah, energy use. But I think the devil to incentivize the guy in Iceland just because he's in Iceland, if he just does shitty work on the subnet, but if
+
+Speaker 1  1:00:04  
+he does shitty work on the subnet, he shouldn't be able to hold his key, and that's up to the primary subnet to make sure that if somebody is doing bad work, they don't get to keep their UID right. That's not my body, yeah. But that depends, I think, on that depends on what was it called UID pressure so far? Yeah, if you have a subnet like Liam
+
+Speaker 2  1:00:30  
+minus are not incentivized to registering many hot keys, because they can just stack all the GPUs in one hot key, then it's very easy to stay registered on Liam, for example. Yeah. Okay, so then I mean, then I mean scaling to
+
+Speaker 1  1:00:48  
+the weight should just mean that, like, these low keys, just have a low weight on the primary subnet, and it's just a matter of, like, I guess picking the threshold or the curve, yeah, you would need to go through, like, do some different scenarios and just see
+
+Speaker 2  1:01:06  
+what with the formula. For example, you have what would be the weights that technically validators should come to through the formula, what you want? Yeah, my mental model was counting on UID pressure, but that's not realistic, so I'm glad to yeah, thanks for pointing that out. That is a good point, yeah, but yeah. I mean, that's the design. Is basically like, I want to reward work that's like, good enough on the primary subnet, and it's kind of up to the primary subnet to figure that out. And it's like, I'm assuming that subnets are not allowing miners that are doing work that's not even good enough, that they don't want to be selling or whatever using to continue to be incentivized, that they're setting that their curves, their incentive mechanism ruthlessly enough to, like, boot off miners that are doing work that's not good enough for them, like, pretty quickly, or at least eventually. So, like, I'm counting on them to do that. So I figure, like, if they're still hanging around on the subnet, and then the subnet is accepting their work, and it's okay, but,
+
+Speaker 1  1:02:10  
+but is that not? Maybe that's not really true, because if people are just getting very low emissions, yeah, it's like, we want to, we want to avoid the long tail of of low emission keys, if there are a lot of these on subnets, but, yeah, and also just but, but that's that. That's technically, like, civil and just not including those subnets, but also what Dara mentioned, and what I mentioned yesterday was with
+
+Unknown Speaker  1:02:36  
+like subnets where the miners don't have any really, they don't really have any compute work or any carbon footprint that.
+
+Transcribed by https://otter.ai
+
+Speaker 1  0:00  
+Don't have any little really. They don't really have any computer work or any carbon footprint that they have to be documented, like, for example, if you are on gradients, then all you all that the subnet wants from you is submit a code from a fine tuning model, from fine tuning process, which would then be run on the validator side. And the validator is running all the code from all the miners. Yeah, so the miners actually themselves don't have any couple footprints the validator that just
+
+Speaker 2  0:35  
+wouldn't work. Yeah, it literally this. I mean, this will only work with subnets that it works for. And so,
+
+Speaker 1  0:43  
+yeah, I mean, technically, you could, you could have, maybe in the, like, v2 or something, of that, you could also support those subnets through the validators, you know, yeah, because ideally, and that's like, a big part of that's actually the big part of carbon footprint, is validation because you have and like it tends to, ideally even encourages you to have more validators. Like you can have up to 64 validators from the 256 slots. So let's imagine you have 64 validators. In a theoretical scenario, you have 64 different people that have to recompute what the miner probably did, except you have some commodity where the validation is cheap, like Bitcoin, for example, but most of them are not the case. But yeah,
+
+Speaker 2  1:34  
+well, so then yeah, 100% so maybe you're right that a lot of the good use cases for the subnet would actually be the miners or validators on other subnets, not miners. And should think about that. It also might, it might also be true for blockchain validators, once we have that going like,
+
+Unknown Speaker  1:54  
+Yeah, the question, the question is just like,
+
+Speaker 1  2:00  
+for validators, it's a bit difficult, because the only way you could reduce the common footprint is if the validators would register at some specific location, right? Like, at least in this version. But I don't think round table can move their bunker to some different country. Yeah. So that's, like, the problem, whatever that it is, I think, yeah, I think it's worth thinking about. Overall, it's a cool idea. And, I mean, it's, it's something that can make bitten so better, and so in one of the sites, which is being more friendly and like for the carbon footprint, which well, but coin is not in most cases, or like, I think now it pretty much is because people need to get so much efficiency that they are doing their own solar stations, farms to run everything.
+
+Speaker 2  2:58  
+If we can just get tau hash onto this sub note, then we've got that problem solved too. Yep, sure. And I thought, I think taoize probably is a really good candidate, like anything. The minor workloads are big and latency is not important. It should. It should be a low hanging fruit. Yeah. Yeah. Which is ironic, because that's usually the case for AI, and it's just like, AI is so notoriously, like, power hungry, even though the like latency is, like, not important, it's like, that's, that's lazy,
+
+Speaker 1  3:36  
+I mean, to some degree, bit tensor, or like the subnets themselves, push you towards being to, like, to having a lower carbon footprint. Because, as you mentioned in the paper, lower carbon footprint actually also mean correlates with lower costs. And yeah, at some point, except everybody,
+
+Speaker 2  4:01  
+except so where it really doesn't is at the large at the scale of, like, the big decisions made by large corporations about where to build data centers. Oh, yeah. And it's like, and so our role here basically, it's like, we're gonna take a principled stance against using the data centers that these companies are building in places that they shouldn't be for environmental reasons. And those are the places, right? We'll get high carbon scores, but would be cheap. So those are in the United States. There's places like Virginia where there's like, it's like, a big coal state. So it's like, that's like the, I think the dirtiest AWS data centers and stuff in the United States are, for example, Virginia and Ohio and but, and it's like, the cheapest, but, yeah, so it's like, um, in the big picture, it's about where the data centers are built and moved. It's not about just where the mining is, but we can't, like, do that directly,
+
+Speaker 1  4:54  
+actually, that's kind of interesting. I don't know if you have tried that, but. With the with the mining map, or, like, with the map on learning potential, with all the miners. What I allocated? Yeah, wait, have you thought about looking like what potentially from the location side of things? What the current carbon footprint of potential would be?
+
+Speaker 2  5:14  
+No, but I should use your map, your data, for some white paper.
+
+Speaker 1  5:19  
+Yeah, I can. I can send you the Jason with all the IPS and locations.
+
+Speaker 2  5:22  
+Cool, cool, cool. Yeah, it's so funny that I didn't even think about that, because that's exactly like, literally, like, what is being described, yeah, like the
+
+Speaker 1  5:30  
+IPP of how needed that is, or how potentially, it already maybe is happening to some degree or something. Yeah.
+
+Speaker 2  5:38  
+And we could kind of visualize, like, where we are and where we want to be, which is a state where the compute kind of migrates around the world into sunny places with the day to be on solar farms or whatever like.
+
+Speaker 1  5:50  
+And because I have that for every year, it would be interesting if, over the past years, anything changed, like if potential minus kind of collected more on the areas where it's cheaper, where it's or where it's more expensive, or where it's worse, where the carbon footprint is better, or something.
+
+Speaker 2  6:08  
+Yeah, cool, cool. Well, yeah, I'll definitely want to take another look at your your map thing, and yeah, send me the
+
+Speaker 1  6:20  
+link and stuff. It's good to have that, because it's, it seems like it's kind of useful sometimes,
+
+Speaker 2  6:27  
+yeah, and yeah, I mean, so it's like, if I really wanted to do this, it's like, I don't know how to go ahead with the like, launching the subnet, but maybe it'd be something to talk to this. What are they called? The other company that we were talking to, and that, oh, bit starter, yeah, yeah,
+
+Speaker 1  6:45  
+yeah, it's probably like a
+
+Unknown Speaker  6:50  
+good idea, because
+
+Speaker 1  6:54  
+the best way to to, like, learn how subnets work is through building one, and even if it fails, it's like, you still learn a lot through that. Yeah, so, yeah, it's, I don't, I don't see why it would not be possible. If there will be some, some people that want to crowd, crowd funded or something, then it's always good trying.
+
+Transcribed by https://otter.ai
+
+================================================================================
+DETAILED SUMMARY OF CONVERSATION
+================================================================================
+
+## ORIGIN AND CORE MOTIVATION
+
+The Littlefoot subnet concept emerged during work on a previous "audit white paper" when the team discovered a fundamental transparency gap: nobody has any way to obtain information about energy production or usage in Bittensor. This lack of visibility into the network's environmental impact became the catalyst for designing a subnet specifically to address carbon footprint reduction.
+
+## THE OVERLAY SUBNET ARCHITECTURE
+
+### Core Design Philosophy
+Littlefoot is designed as an "overlay subnet" - not the first of its kind (SN118 is mentioned as another overlay example that incentivizes long-term holding). The key characteristics:
+
+1. **Dual Registration**: Miners must be registered and receiving emissions on a "primary subnet" (Lium, Chutes, Templar, etc.) while also registering on Littlefoot
+2. **Additional Incentives**: Littlefoot provides supplementary rewards on top of primary subnet emissions, functioning as a "carbon subsidy" that covers the cost of cleaner infrastructure decisions
+3. **Attestation-Based**: Miners provide attestations about their carbon usage and location, which validators verify
+4. **Non-Disruptive Goal**: The mechanism aims to nudge existing miners toward more efficient decisions when making infrastructure choices, acting as a tie-breaker rather than a complete overhaul
+
+### The Scoring Function
+The basic formula discussed: **Weight on primary subnet × Signal strength ÷ Carbon rating**
+
+Where:
+- **Weight on primary subnet**: The miner's emission weight on their primary subnet (Lium, Templar, etc.)
+- **Signal strength**: Quality/completeness of data reporting and attestations provided by the miner
+- **Carbon rating**: A measure of carbon usage (lower is better), primarily based on geographic location
+
+## CRITICAL DESIGN CHALLENGES DISCUSSED
+
+### 1. Cross-Subnet Balancing Problem
+
+**The Challenge**: Different subnets have vastly different carbon footprints. Git tensor miners likely use minimal compute compared to GPU-intensive subnets like Chutes or training subnets.
+
+**The Dilemma**: How to fairly compare and balance rewards across subnets?
+- Option A: Weight by subnet emissions (influences Bittensor network more directly)
+- Option B: Weight by actual carbon impact (maximizes environmental benefit)
+
+**Status**: Acknowledged as "probably the trickiest part of the subnet design" and "the part that I'm least sure about." The rebalancing function across mechanisms/subnets is the key unsolved piece.
+
+### 2. Interference with Primary Subnet Incentive Mechanisms
+
+**Core Concern**: Could Littlefoot disrupt the incentive mechanisms of primary subnets by changing miner rankings?
+
+**Why It Matters**: If the subnet owner wants to incentivize certain behaviors, a large Littlefoot subnet could "fuck with the incentive mechanism" by changing the relative rewards miners receive.
+
+**Mitigating Factors Identified**:
+- The scoring function multiplies by original weighting, so it "shouldn't change rankings much except in really extreme circumstances"
+- If Littlefoot is small relative to primary subnet, the interference is minimal
+- If Littlefoot is large, it actually signals to subnet owners that the community cares about carbon efficiency, potentially motivating primary subnets to adjust
+- For small subnets, Littlefoot could actually help by boosting emissions to their miners, serving as a bootstrapping mechanism
+
+**Strategic Insight**: The relative size of Littlefoot versus primary subnets becomes a critical factor in whether it's seen as helpful or disruptive.
+
+### 3. The Token Economics Problem (Death Spiral Risk)
+
+**The Fundamental Problem**: Miners on overlay subnets may have no incentive to hold Littlefoot tokens because they don't care about it as much as their primary subnet.
+
+**Comparison to SN118**: Similar overlay design where:
+- Mechanism incentivizes buying baskets of tokens and holding
+- Holders earn SN118 emissions
+- Holders can sell those emissions and buy more basket tokens
+- This creates a cycle that drives down SN118 price
+- SN118 addressed this with delayed emissions or disincentives for selling
+
+**The Littlefoot Variant**:
+- Miners already doing clean work might receive Littlefoot emissions without changing behavior
+- Since Littlefoot isn't their primary subnet, they can unstake everything immediately
+- This creates massive net outflows from the subnet
+- Large outflows mean lower effective emissions
+- Could lead to a death spiral where the subnet becomes worthless
+
+**Counterargument**: The issue affects all subnets - how to prevent immediate miner liquidity exits is a general problem. The difference with overlays is that they may be seen as less essential than "commodity subnets" that provide direct value.
+
+### 4. The Git Tensor Problem (Gaming via Low-Quality Participation)
+
+**Scenario A (Intended)**: Existing high-quality miners on primary subnets register on Littlefoot and adjust to cleaner infrastructure
+
+**Scenario B (Gaming Risk)**: New miners:
+1. See Littlefoot incentives
+2. Register on Littlefoot first
+3. Realize they need emissions on primary subnet (Templar, etc.)
+4. Spam low-quality work on primary subnet just to get any emissions
+5. Bloat primary subnet with garbage output
+6. Collect Littlefoot rewards while providing minimal value to primary subnet
+
+**Why This is Concerning**: Similar to Git tensor miners who "spam every repo that has some weights" to collect any emissions possible.
+
+**Mitigating Factors**:
+- The weight multiplication in the formula means low-performing primary miners get proportionally low Littlefoot rewards
+- It's difficult to maintain competitive emissions on demanding primary subnets like Templar
+- The design should attract already-competitive miners rather than making it easy for newcomers to game
+
+**Remaining Risk**: If only the lowest-performing miners from each primary subnet join Littlefoot, the subnet wastes its emissions on miners who aren't doing most of the work on primary subnets anyway, failing to influence where the bulk of compute actually happens.
+
+### 5. The "All Shitty Miners" Scenario
+
+**The Problem**: What if a primary subnet's worst performers all register on Littlefoot?
+- Within their Littlefoot cohort, some become "the best" relatively
+- They receive significant Littlefoot emissions
+- But they're not the miners actually doing the important work on the primary subnet
+
+**Counter-mechanism**: 
+- If decent miners on the primary subnet observe this, they should register on Littlefoot to capture those emissions
+- The subnet's incentive mechanism should naturally attract better performers
+- "You got to just trust the design, the subnet design and human consensus"
+
+**Additional Safeguard Discussed**: Burn/recycle mechanism
+- If all participating miners are "shitty" (low performing), don't distribute 100% of Alpha
+- Reduce emissions proportionally to how poor the overall participant quality is
+- As carbon footprint improves collectively, release more Alpha to participants
+- Prevents "wasting money" or "flushing it down the toilet" when not making meaningful impact
+
+### 6. UID Pressure Assumptions vs. Reality
+
+**Original Assumption**: The design counted on UID pressure ensuring that only miners doing valuable work maintain their keys on primary subnets.
+
+**Reality Check**: This assumption "is not realistic" because:
+- On subnets like Lium, miners aren't incentivized to register many hotkeys
+- They can stack all GPUs under one hotkey
+- Therefore it's "very easy to stay registered on Lium"
+- Low-performing miners can maintain registration with low weights rather than being booted off
+
+**Design Implication**: 
+- Can't rely on primary subnets automatically removing poor performers
+- Instead, need to tune the scoring formula to handle the "long tail of low emission keys"
+- The threshold/curve in the formula becomes critical
+- Need to model different scenarios to determine proper weights
+
+**Philosophical Tension**: 
+- The design wants to reward work that's "good enough" on the primary subnet
+- It assumes primary subnets ruthlessly boot miners doing inadequate work
+- But reality shows many subnets allow low-weight miners to persist indefinitely
+- This creates ambiguity about where to draw the line
+
+### 7. The Threshold Tuning Challenge
+
+**Scenario Explored**: Two miners on the same primary subnet
+- Miner A: Extremely low carbon (Iceland), but low emissions on primary subnet
+- Miner B: Top performer on primary subnet, but heavy carbon footprint (Germany/Poland)
+
+**Design Question**: Who should rank higher?
+
+**Design Intuition Articulated**:
+- "As long as they're good enough to keep their spot, then by design, I want them to be getting that"
+- If a miner is "dying on the primary subnet" or "not maintaining it stably," stop incentivizing them
+- The formula needs tuning to find the right balance
+- Don't want to incentivize the Iceland miner "just because he's in Iceland, if he just does shitty work"
+
+**Refinement Through Discussion**:
+- Initial thought: UID pressure solves this (proven unrealistic)
+- Scaling by weight should handle low performers, just need to pick the right threshold/curve
+- Need to work through scenarios with the formula to see what weights validators would actually assign
+- Still requires "constant fine tuning" for each mechanism/primary subnet
+
+**Underlying Principle**: 
+- Want to reward miners good enough to stay on primary subnet
+- Among those, incentivize the ones best at carbon usage
+- Primary subnet determines quality threshold (Littlefoot shouldn't second-guess that)
+- But can't actually rely on primary subnets enforcing quality thresholds aggressively
+
+## SUBNET SCOPE CONSIDERATIONS
+
+### Suitable Subnets (High Potential)
+The design only works for subnets where:
+1. **Miners perform compute work** (not just validators)
+2. **Miners control their own infrastructure** (can choose locations/providers)
+3. **Workloads are latency-tolerant** (can handle geographic distance to clean grids)
+4. **High energy usage** (meaningful carbon impact)
+
+**Specific Candidates Mentioned**:
+- **Lium**: GPU rental via SSH (latency-tolerant, hardware verification already exists)
+- **Chutes**: Serverless inference (uses Latitude.sh per their README, but latency concerns for real-time workloads)
+- **Templar**: Training subnet (extremely high energy, latency-tolerant)
+- **Tao Hash (SN14)**: Bitcoin mining subnet mentioned as future target, though higher integration effort
+
+### Unsuitable Subnets
+**Example: Gradients**
+- Miners only submit fine-tuning code
+- Validators run all the actual compute
+- Miners themselves have no carbon footprint to optimize
+- Littlefoot mechanism doesn't apply to this architecture
+
+**Potential V2 Solution**: Support validator-focused subnets by targeting validators instead of miners, since validators often represent significant carbon footprint (up to 64 validators from 256 slots, each recomputing miner work).
+
+### Special Case: Validators
+**The Challenge**: 
+- Validators do represent significant compute/carbon, especially when validation is expensive
+- But reducing validator carbon footprint is harder because it requires validators to relocate
+- Example given: "Round table can't move their bunker to some different country"
+- Location-based carbon reduction works for mobile/flexible miners, less so for established validator infrastructure
+
+**Possible Future Direction**: Once blockchain validators exist in Bittensor, they could be candidates for this type of mechanism.
+
+## VERIFICATION AND DATA SOURCES
+
+### Current Verification Approaches
+**Low-Hanging Fruit**:
+- Not many miners run on AWS/GCP in examined subnets (good for carbon, would make verification easier but less urgent)
+- Many use bare metal services
+- Can read operating location from bare metal provider APIs
+- Location dominates carbon impact, making it the right starting point
+
+**Provider API Approach**:
+- Services like Latitude.sh provide location data via APIs
+- Can verify where miners are actually operating
+- Enables verification without self-reporting
+
+### Signal Strength (σ in formula)
+Represents quality/completeness of attestations:
+- Has a miner provided all required data?
+- Given necessary API access for verification?
+- Partial credit system for incomplete reporting
+- Could do "graded reporting" where miners get partial signal strength for partial compliance
+
+## ECONOMIC ANALYSIS AND REAL-WORLD CONTEXT
+
+### Location and Cost Correlation
+**Key Insight from Discussion**: Clean grids often correlate with lower costs, so Littlefoot doesn't necessarily need to "overcome a green premium."
+
+**Supporting Evidence Discussed**:
+- Many clean locations have cheap electricity
+- Cold climates (Iceland, Quebec, Norway) also reduce cooling costs
+- Littlefoot can "tip close decisions" rather than forcing expensive changes
+
+### Scale Requirements
+**Consensus**: For meaningful influence, Littlefoot needs to be roughly 20-50% the size of target subnets.
+- Too small: minimal influence, just token gesture
+- Right-sized: tips infrastructure decisions, creates meaningful incentive
+- Very large: could interfere with primary subnet mechanisms (see earlier concerns)
+
+### The Compound Effect Vision
+Even a small Littlefoot can trigger a virtuous cycle:
+1. Some miners choose clean grids for bonus
+2. Clean miners earn more (Littlefoot + cheaper power in many cases)
+3. They reinvest and grow faster
+4. Dirty-grid miners fall behind competitively
+5. New miners observe and choose clean locations from the start
+6. Clean datacenters see demand, expand capacity
+7. Cycle repeats and accelerates
+
+**Key Insight**: "Littlefoot doesn't need to overcome a green premium—it just needs to tip close decisions and let compound effects do the rest."
+
+### Bitcoin Parallel Mentioned
+Bitcoin mining has naturally moved toward efficiency out of economic necessity:
+- Miners build their own solar farms to reduce power costs
+- Economic pressure drove carbon reduction without explicit carbon incentives
+- Bittensor could achieve similar outcomes through explicit incentive design
+
+## DATA CENTER LOCATION POLITICS
+
+**The Big Picture Issue**: 
+Major corporations build data centers in environmentally problematic locations due to factors other than electricity cost:
+- Example: Virginia and Ohio are among dirtiest AWS regions (coal states)
+- But they're also the cheapest
+- Bittensor can take "a principled stance against using the data centers that these companies are building in places that they shouldn't be for environmental reasons"
+
+**Littlefoot's Role**: 
+Can't directly influence where big corporations build data centers, but can:
+- Influence where Bittensor miners choose to operate
+- Create market signals about demand for clean compute
+- Demonstrate that decentralized networks can embody environmental principles that centralized providers ignore
+
+## RESEARCH OPPORTUNITIES IDENTIFIED
+
+### Mining Map Analysis
+**Exciting Realization**: Data already exists to analyze current carbon footprint of Bittensor network
+- Learning Potential (or similar project) has built a mining map with all miner locations
+- Have JSON data with all IPs and locations
+- Have historical data for multiple years
+
+**Research Questions**:
+1. What is the current carbon footprint of the Bittensor network?
+2. Has it changed over time?
+3. Have miners migrated toward cheaper locations, or toward cleaner ones, or toward dirtier ones?
+4. Can visualize "where we are and where we want to be"
+
+**Vision**: 
+- Map showing compute migrating "around the world into sunny places with the day to be on solar farms or whatever"
+- Track whether this vision is already happening organically or requires active incentivization
+- Quantify how much need exists for Littlefoot's intervention
+
+## LAUNCH STRATEGY AND NEXT STEPS
+
+### Technical Implementation
+**Key Requirement**: Need to develop specific validator code for each primary subnet mechanism
+- Different subnets provide different data
+- Each needs customized verification approach
+- Start with "low-hanging fruit" candidates where verification is straightforward
+
+### Go-to-Market Considerations
+**Bitstarter Mentioned**: 
+- Organization that helps launch subnets
+- Could be valuable partner for bringing Littlefoot to market
+- Especially useful if subnet is crowdfunded
+
+**Educational Value Emphasized**:
+"The best way to learn how subnets work is through building one, and even if it fails, it's like, you still learn a lot through that."
+
+### Starting with 3-4 Target Subnets
+**Pragmatic Launch Approach**:
+- Don't try to support all subnets at once
+- Pick 3-4 strong candidates where mechanism clearly works
+- Build specific verification for those
+- Expand as subnet matures and learns what works
+
+**Ideal Candidates for V1**:
+- Training subnets (highest energy impact)
+- Latency-tolerant inference/compute
+- Subnets where miners use identifiable providers (Latitude.sh, etc.)
+- High UID pressure or at least decent performance requirements
+
+## PHILOSOPHICAL TENSIONS UNRESOLVED
+
+### Trust vs. Verification
+The design relies on primary subnets to enforce quality, but:
+- Can't actually verify that primary subnets do this effectively
+- "You got to just trust the design, the subnet design and human consensus"
+- Yet the whole point of Littlefoot is to add verification for something (carbon) that isn't naturally verified
+
+### Influence vs. Interference
+Want to:
+- Influence miner decisions toward cleaner compute
+- NOT interfere with primary subnet incentive mechanisms
+- Support primary subnets while remaining independent
+
+This requires careful sizing and formula tuning, but the exact balance remains uncertain.
+
+### Individual Optimization vs. Collective Impact
+The formula rewards individual miners for being clean, but:
+- If only marginal miners participate, it wastes emissions
+- If high-performers participate, it could disrupt primary subnet rankings
+- Need collective participation from competitive miners without disrupting their primary focus
+
+## RECURRING THEMES
+
+1. **Constant Fine-Tuning Required**: Nearly every design element requires ongoing adjustment and calibration
+2. **Trust in Emergence**: Multiple points where discussion concludes "trust the incentive mechanism to work itself out"
+3. **Verification is Hard**: Easier to verify location than actual carbon usage, but location is also the dominant factor
+4. **Size Matters**: Littlefoot's effectiveness and safety both scale with its size relative to primary subnets
+5. **Learn by Doing**: Strong emphasis on launching and iterating rather than solving everything upfront
+
+## OPEN QUESTIONS EXPLICITLY ACKNOWLEDGED
+
+1. How to balance weights across primary subnets with different carbon intensities?
+2. Is the core formula (W × σ / C) actually the right function?
+3. What threshold separates "good enough" from "too poor to incentivize"?
+4. How to prevent death spiral from miner token outflows?
+5. Should validators be targeted in future versions?
+6. How to handle subnets without UID pressure?
+7. What burn/recycle mechanism parameters would work best?
+
+## KEY SUCCESS METRICS IMPLIED
+
+1. **Participation from high-performers**: Need top miners on primary subnets to register, not just marginal players
+2. **Actual migration**: Miners should relocate or choose cleaner infrastructure due to incentives
+3. **Non-interference**: Primary subnet owners shouldn't complain or feel disrupted
+4. **Token stability**: Avoid death spiral from excessive miner outflows
+5. **Measurable impact**: Real reduction in Bittensor's carbon footprint over time
+6. **Scalability**: Mechanism should work across multiple primary subnets with different characteristics
+
+================================================================================
+END SUMMARY
+================================================================================

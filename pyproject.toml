@@ -1,0 +1,24 @@
+[project]
+name = "littlefoot"
+version = "0.1.0"
+description = "A Geographic Incentive Layer for Sustainable AI Compute"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "bittensor>=8.0.0",
+    "bittensor-cli>=9.17.0",
+    "bittensor-wallet>=2.0.0",
+    "click>=8.0.0",
+    "aiohttp>=3.9.0",
+    "requests>=2.31.0",
+    "pydantic>=2.0.0",
+]
+
+[project.optional-dependencies]
+pricing = [
+    "boto3>=1.34.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

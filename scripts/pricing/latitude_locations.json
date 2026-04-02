@@ -1,0 +1,91 @@
+[
+  {
+    "location": "Ashburn",
+    "grid_area": "United States of America"
+  },
+  {
+    "location": "Chicago",
+    "grid_area": "United States of America"
+  },
+  {
+    "location": "Dallas",
+    "grid_area": "United States of America"
+  },
+  {
+    "location": "Los Angeles",
+    "grid_area": "United States of America"
+  },
+  {
+    "location": "Los Angeles 2",
+    "grid_area": "United States of America"
+  },
+  {
+    "location": "Miami 2",
+    "grid_area": "United States of America"
+  },
+  {
+    "location": "New York",
+    "grid_area": "United States of America"
+  },
+  {
+    "location": "Mexico City 2",
+    "grid_area": "Mexico"
+  },
+  {
+    "location": "Buenos Aires",
+    "grid_area": "Argentina"
+  },
+  {
+    "location": "Bogota",
+    "grid_area": "Colombia"
+  },
+  {
+    "location": "Santiago 3",
+    "grid_area": "Chile"
+  },
+  {
+    "location": "São Paulo",
+    "grid_area": "Brazil"
+  },
+  {
+    "location": "São Paulo 2",
+    "grid_area": "Brazil"
+  },
+  {
+    "location": "Amsterdam",
+    "grid_area": "Netherlands"
+  },
+  {
+    "location": "Frankfurt",
+    "grid_area": "Germany"
+  },
+  {
+    "location": "Frankfurt 2",
+    "grid_area": "Germany"
+  },
+  {
+    "location": "London",
+    "grid_area": "United Kingdom"
+  },
+  {
+    "location": "London 2",
+    "grid_area": "United Kingdom"
+  },
+  {
+    "location": "Singapore",
+    "grid_area": "Singapore"
+  },
+  {
+    "location": "Tokyo 3",
+    "grid_area": "Japan"
+  },
+  {
+    "location": "Sydney",
+    "grid_area": "Australia"
+  },
+  {
+    "location": "Sydney 2",
+    "grid_area": "Australia"
+  }
+]
+
