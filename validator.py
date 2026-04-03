@@ -3,7 +3,7 @@ Littlefoot Subnet Validator
 
 A Geographic Incentive Layer for Sustainable AI Compute.
 
-Scoring function: S_i = W_i / (C_i * σ_i)
+Scoring function: S_i = (W_i * σ_i) / C_i
 where:
   - W_i = Subnet Weight (performance on underlying subnet like Lium/Chutes)
   - C_i = Carbon Intensity (gCO2/kWh) for verified location
@@ -57,28 +57,23 @@ def calculate_littlefoot_score(
 ) -> float:
     """
     Calculate Littlefoot efficiency score.
-    
-    Formula: S_i = W_i / (C_i * σ_i)
-    
-    Lower carbon intensity and higher verification confidence = higher score.
-    
+
+    Formula: S_i = (W_i * σ_i) / C_i
+
+    Higher subnet weight and verification confidence, lower carbon intensity = higher score.
+
     Args:
         subnet_weight: W_i - Miner's weight on target subnet
         carbon_intensity: C_i - Grid carbon intensity (gCO2/kWh)
         signal_strength: σ_i - Verification confidence multiplier (0.0 to 1.0)
-        
+
     Returns:
         Littlefoot score (higher = more efficient/cleaner)
     """
     if carbon_intensity <= 0 or signal_strength <= 0:
         return 0.0
-    
-    # Avoid division by zero
-    denominator = carbon_intensity * signal_strength
-    if denominator == 0:
-        return 0.0
-    
-    score = subnet_weight / denominator
+
+    score = (subnet_weight * signal_strength) / carbon_intensity
     return score
 
 

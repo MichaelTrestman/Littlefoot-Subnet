@@ -1,49 +1,66 @@
-# Littlefoot: A Geographic Incentive Layer for Sustainable AI Compute
+# Littlefoot: Carbon Footprint Intelligence for Bittensor
 
-Littlefoot is a Bittensor subnet that incentivizes clean AI compute by rewarding miners who verifiably operate in low-carbon-intensity grid regions. It acts as an incentive overlay on existing Bittensor subnets (Lium SN51, Chutes SN64), subsidizing miners who meet efficiency benchmarks.
+Littlefoot is a Bittensor subnet that produces **carbon footprint intelligence** -- verified, actionable data about the carbon efficiency of compute on other Bittensor subnets. It acts as an incentive overlay on existing subnets, subsidizing miners who verifiably operate in low-carbon-intensity grid regions and provide high-quality attestation data.
 
-## Overview
+Carbon footprint intelligence has two aspects, both directly incentivized:
 
-Littlefoot creates a countervailing economic pressure by incentivizing transparency and power-use efficiency. The subnet focuses on **geographic location** as the primary factor because:
+- **Efficiency** -- verifiable infrastructure choices that reduce the carbon footprint of work performed on primary subnets
+- **Transparency** -- verified attestations about location, power usage, and related metrics
 
-1. **High Impact**: Location creates 10-30× differences in carbon intensity
-2. **Reliable Verification**: Provider APIs (Latitude.sh, AWS, GCP) give ground truth
-3. **Measurable**: Can be verified without trusting miners
-
-### Scoring Function
+## Scoring Function
 
 The core scoring function for miner $i$ is:
 
-$$S_i = \frac{W_i}{C_i \cdot \sigma_i}$$
+$$S_i = \frac{W_i \cdot \sigma_i}{C_i}$$
 
 where:
-- $W_i$ = Subnet Weight (performance on underlying subnet like Lium/Chutes)
-- $C_i$ = Carbon Intensity (gCO₂/kWh) for verified location
-- $\sigma_i$ = Signal Strength (verification confidence multiplier ∈ (0, 1])
+- $W_i$ = Subnet Weight (performance on a primary subnet)
+- $C_i$ = Carbon Intensity (gCO2/kWh) for verified location
+- $\sigma_i$ = Signal Strength (verification confidence multiplier $\in (0, 1]$)
 
 The normalized weight determining emission distribution is:
 
 $$\hat{W}_i = \frac{S_i}{\sum_{j=1}^{n} S_j}$$
 
-**Result**: Miners in clean-grid locations (Iceland, Quebec, Norway) receive significantly higher rewards than those in coal-heavy regions (Poland, Ohio).
+This ensures:
+- Miners with zero primary subnet performance ($W_i = 0$) receive no Littlefoot rewards
+- Higher verification confidence ($\sigma_i$) increases score
+- Lower carbon intensity ($C_i$) increases score
+- The mechanism complements primary subnet incentives rather than competing with them
 
-## Architecture
+**Variant for validator-compute overlays** (subnets where validators perform the compute, e.g. Ridges SN62, Gradients SN56):
 
-### Components
+$$S_i = \frac{B_i \cdot \sigma_i}{C_i}$$
 
-1. **`validator.py`** - Main validator loop that scores miners and sets weights
-2. **`location_verification.py`** - Verifies miner locations via provider APIs
-3. **`carbon_intensity.py`** - Maps locations to carbon intensity values
-4. **`subnet_weights.py`** - Fetches miner weights from target subnets (Lium, Chutes)
+where $B_i$ is the number of active validator-miner bonds (a proxy for validation workload).
 
-### Verification Tiers
+## Overlay Architecture
 
-| Tier | Method | Confidence | Score Multiplier |
-|------|--------|------------|-------------------|
-| Tier 1 | Provider API (Latitude, AWS, GCP) | High | 1.0× |
-| Tier 2 | Colocation attestation | Medium | 0.9× |
-| Tier 3 | Multi-signal (latency + IP + reputation) | Low | 0.7× |
-| Tier 0 | Unverified | None | 0.0× |
+Littlefoot supports two overlay patterns depending on where compute is performed:
+
+1. **Miner-compute overlays** -- For subnets where miners control the compute (Lium SN51, Chutes SN64, Templar, IOTA, Hippius SN13). Miners register on Littlefoot and their rewards depend on primary subnet weight ($W_i$) combined with carbon efficiency.
+
+2. **Validator-compute overlays** -- For subnets where validators perform the compute (Ridges SN62, Gradients SN56). Validators register as Littlefoot miners and their rewards depend on bond count ($B_i$) combined with carbon efficiency.
+
+Each supported primary subnet has its own incentive mechanism using Bittensor's multi-mechanism capability. Emissions are split evenly across supported overlays.
+
+## Source Files
+
+| File | Purpose |
+|------|---------|
+| `validator.py` | Main validator loop: scores miners and sets weights |
+| `location_verification.py` | Verifies miner locations via provider APIs (Latitude.sh, AWS, GCP) |
+| `carbon_intensity.py` | Maps locations to carbon intensity values (gCO2/kWh) |
+| `subnet_weights.py` | Fetches miner weights from primary subnets |
+
+## Verification Tiers
+
+| Tier | Method | Confidence | $\sigma_i$ |
+|------|--------|------------|-------------|
+| Tier 1 | Provider API (Latitude, AWS, GCP) | High | 1.0 |
+| Tier 2 | Colocation attestation | Medium | 0.9 |
+| Tier 3 | Multi-signal (latency + IP + reputation) | Low | 0.7 |
+| Tier 0 | Unverified | None | 0.0 |
 
 ## Setup
 
@@ -51,206 +68,107 @@ $$\hat{W}_i = \frac{S_i}{\sum_{j=1}^{n} S_j}$$
 
 - Python 3.12+
 - Bittensor wallet with TAO for subnet registration
-- Access to target subnets (Lium SN51, Chutes SN64) for weight fetching
+- Active miner on a supported primary subnet
 
 ### Installation
 
-1. **Clone the repository** (if not already in your workspace):
-   ```bash
-   cd /path/to/your/workspace
-   git clone <repository-url> littlefoot
-   cd littlefoot
-   ```
-
-2. **Install dependencies**:
-   ```bash
-   pip install uv
-   uv pip install -e .
-   ```
-
-   Or using standard pip:
-   ```bash
-   pip install -e .
-   ```
-
-3. **Configure environment**:
-   ```bash
-   cp env.example .env
-   # Edit .env with your configuration
-   ```
+```bash
+pip install -e .
+```
 
 ### Configuration
 
-Edit `.env` with your settings:
+Copy `env.example` to `.env` and edit:
 
 ```bash
-# Network Configuration
-NETWORK=finney          # finney (mainnet), test (testnet), or local
-NETUID=1                # Your subnet's netuid (after registration)
-
-# Wallet Configuration
-WALLET_NAME=default     # Name of your wallet
-HOTKEY_NAME=default     # Name of your hotkey
-
-# Target Subnets
-LIUM_NETUID=51          # Lium subnet netuid
-CHUTES_NETUID=64        # Chutes subnet netuid
-
-# Logging
-LOG_LEVEL=INFO          # DEBUG, INFO, WARNING, ERROR
+cp env.example .env
 ```
 
-### Running the Validator
+Key settings:
 
-#### Local Development
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `NETWORK` | `finney` | `finney` (mainnet), `test` (testnet), or `local` |
+| `NETUID` | `1` | Littlefoot subnet netuid |
+| `WALLET_NAME` | `default` | Wallet name |
+| `HOTKEY_NAME` | `default` | Hotkey name |
+| `LIUM_NETUID` | `51` | Lium subnet netuid |
+| `CHUTES_NETUID` | `64` | Chutes subnet netuid |
+| `LOG_LEVEL` | `INFO` | `DEBUG`, `INFO`, `WARNING`, `ERROR` |
+
+### Running the Validator
 
 ```bash
 python validator.py \
   --network finney \
   --netuid <your_netuid> \
   --coldkey <wallet_name> \
-  --hotkey <hotkey_name> \
-  --lium-netuid 51 \
-  --chutes-netuid 64
+  --hotkey <hotkey_name>
 ```
 
-#### Docker
-
-1. **Build the image**:
-   ```bash
-   docker build -t littlefoot-validator .
-   ```
-
-2. **Run with docker-compose**:
-   ```bash
-   docker-compose up -d
-   ```
-
-3. **View logs**:
-   ```bash
-   docker-compose logs -f validator
-   ```
+All options can also be set via environment variables (see `env.example`).
 
 ## How It Works
 
-### For Validators
+### Validator Loop
 
-1. **Sync metagraph** - Get list of all miners on Littlefoot subnet
-2. **Fetch subnet weights** - For each miner, get their weight on target subnets (Lium/Chutes)
-3. **Verify locations** - Query miner verification info and verify via provider APIs
-4. **Lookup carbon intensity** - Map verified location to carbon intensity (gCO₂/kWh)
-5. **Calculate scores** - Apply scoring function: $S_i = W_i / (C_i \cdot \sigma_i)$
-6. **Normalize and set weights** - Normalize scores and submit to chain
+1. Sync metagraph for the Littlefoot subnet
+2. For each miner, fetch their weight on primary subnets ($W_i$)
+3. Query miner verification info and verify location via provider APIs
+4. Look up carbon intensity ($C_i$) for verified location
+5. Get verification confidence ($\sigma_i$) from tier
+6. Calculate score: $S_i = (W_i \cdot \sigma_i) / C_i$
+7. Normalize scores and submit weights to chain
 
 ### For Miners
 
-Miners need to provide location verification information. This can be done via:
+Miners provide location verification data so validators can verify their carbon footprint. This can be done via chain commits or direct query endpoints.
 
-1. **Chain commits** - Commit verification info on-chain (provider, API keys, server IDs)
-2. **Direct queries** - Expose an endpoint that validators can query
-
-**Example verification info**:
+Example attestation:
 ```json
 {
+  "location": "us-west-1",
   "provider": "latitude",
+  "server_id": "server_123",
   "api_key": "lat_...",
-  "server_id": "server_123"
+  "carbon_intensity_claim": 250,
+  "timestamp": 1704067200
 }
 ```
 
-Or for AWS:
-```json
-{
-  "provider": "aws",
-  "access_key_id": "AKIA...",
-  "secret_access_key": "...",
-  "instance_id": "i-1234567890abcdef0"
-}
-```
+## Carbon Intensity Reference
 
-## Carbon Intensity Database
-
-The subnet includes a carbon intensity database mapping locations to gCO₂/kWh values. Examples:
-
-| Location | Carbon Intensity (gCO₂/kWh) | Relative to Coal |
-|----------|----------------------------|------------------|
-| Iceland | 28 | 32× cleaner |
-| Quebec | 25 | 36× cleaner |
-| Norway | 30 | 30× cleaner |
-| France | 50 | 18× cleaner |
-| Oregon (US) | 250 | 3.6× cleaner |
-| Virginia (US) | 380 | 2.4× cleaner |
+| Location | gCO2/kWh | Relative to Coal |
+|----------|----------|------------------|
+| Quebec | 25 | 36x cleaner |
+| Iceland | 28 | 32x cleaner |
+| Norway | 30 | 30x cleaner |
+| France | 50 | 18x cleaner |
+| Oregon (US) | 250 | 3.6x cleaner |
+| Virginia (US) | 380 | 2.4x cleaner |
 | Poland | 900 | Baseline (coal) |
 
-The database can be extended with new regions as needed.
+At launch, these are annual averages. Future iterations will incorporate real-time grid data via WattTime/ElectricityMaps APIs.
 
-## Target Subnets
+## Limitations (MVP)
 
-### Lium (SN51) - Primary Target
+- **PUE** not measured (datacenter overhead unknown)
+- **Embodied carbon** not accounted for
+- **Real-time grid variation** not yet used (annual averages only)
+- **Cooling efficiency** beyond location averages ignored
 
-GPU rental marketplace where miners contribute machines and renters SSH in to run compute jobs.
+Estimated error on absolute emissions: 30-60%. For the purpose of **ranking miners by carbon efficiency**, this is acceptable because location dominates (10-30x differences). Rankings remain correct even with significant measurement error.
 
-**Why ideal:**
-- Power data already collected via NVML
-- Validators SSH into miners, enabling direct verification
-- Minimal integration effort
+## Future Direction
 
-### Chutes (SN64) - Co-Primary Target
-
-Serverless AI inference platform where miners serve model inference requests.
-
-**Why ideal:**
-- Miners already use Latitude.sh (documented in their README)
-- GraVal hardware attestation already verifies GPUs
-- High energy usage makes efficiency particularly impactful
-
-## Limitations at Launch (MVP)
-
-The initial implementation has some limitations:
-
-- **PUE (Power Usage Effectiveness)**: Not measured (datacenter overhead unknown)
-- **Embodied carbon**: Manufacturing emissions ignored
-- **Real-time grid variation**: Uses averages, not marginal emissions
-- **Cooling efficiency**: Climate effects beyond location averages ignored
-
-**Estimated error**: 30-60% on actual emissions accounting.
-
-However, for the purpose of **ranking miners by carbon efficiency**, this error is acceptable because location dominates (10-30× differences). Rankings remain correct even with significant measurement error.
-
-## Future Evolution
-
-The verification system will evolve over time to:
-
-- Add real-time carbon intensity via WattTime/ElectricityMaps APIs
-- Incorporate power measurement where reliably verifiable (e.g., Lium's NVML data)
-- Develop PUE estimation through provider partnerships
-- Weight time-of-day effects as real-time grid APIs become standard
-- Respond to gaming attempts with additional verification signals
-
-## Contributing
-
-Contributions are welcome! Areas for improvement:
-
-- Additional provider API integrations (Azure, other bare metal providers)
-- Enhanced carbon intensity database
-- Multi-signal verification (latency + IP geolocation + reputation)
-- Colocation attestation protocols
-- Real-time grid carbon intensity integration
-
-## License
-
-[Add your license here]
+- Real-time carbon intensity via WattTime/ElectricityMaps APIs
+- Power measurement integration where verifiable (e.g. Lium's NVML data)
+- PUE estimation through provider partnerships
+- Time-of-day grid variation weighting
+- Additional provider integrations (Azure, other bare metal)
+- Expanded verification signals for gaming resistance
 
 ## References
 
 - [Littlefoot Whitepaper](./WHITEPAPER.md)
 - [Bittensor Documentation](https://docs.bittensor.com)
-- [Chi Subnet Template](https://github.com/opentensor/chi)
-
-## Contact
-
-[Add contact information]
-
----
-
-**Let's change the world by incentivizing clean AI!** 🌱⚡
